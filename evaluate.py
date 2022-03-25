@@ -1,11 +1,14 @@
-import tensorflow as tf
-from tensorflow.keras.utils import normalize, to_categorical
-from tensorflow.keras.metrics import MeanIoU
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from sklearn.utils import class_weight
+"""
+This script mainly demonstrates the evaluation of trained model on existing data.
 
-from cv2 import cv2
+Since evaluation subjects to different needs, here we only shows a possible procedure.
+"""
+
+import tensorflow as tf
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.metrics import MeanIoU
+from sklearn.model_selection import train_test_split
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -27,7 +30,7 @@ y_train_cat = train_masks_cat.reshape((y_train.shape[0], y_train.shape[1], y_tra
 test_masks_cat = to_categorical(y_test, num_classes=n_classes)
 y_test_cat = test_masks_cat.reshape((y_test.shape[0], y_test.shape[1], y_test.shape[2], n_classes))
 
-# Evaluate the model
+# Evaluate the model on test data
 print(model.evaluate(X_test, y_test_cat))
 
 y_pred = model.predict(X_test)
@@ -37,7 +40,7 @@ IOU_keras = MeanIoU(num_classes=n_classes)
 IOU_keras.update_state(y_test[:, :, :, 0], y_pred_argmax)
 print("Mean IoU =", IOU_keras.result().numpy())
 
-# To calculate I0U for each class...
+# Calculate I0U for each class
 values = np.array(IOU_keras.get_weights()).reshape(n_classes, n_classes)
 print(values)
 class1_IoU = values[0, 0] / (values[0, 0] + values[0, 1] + values[0, 2] + values[1, 0] + values[2, 0])

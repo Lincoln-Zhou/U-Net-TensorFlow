@@ -1,16 +1,19 @@
+"""
+Model definition script from https://github.com/bnsreenu/python_for_microscopists, refer to the following YouTube links for some awesome U-Net explanation
+"""
+
 # https://youtu.be/XyX5HNuv-xE
 # https://youtu.be/q-p8v1Bxvac
+
 """
 Standard Unet
-Model not compiled here, instead will be done externally to make it
-easy to test various loss functions and optimizers. 
+Model not compiled here, instead will be done externally to make it easy to test various loss functions and optimizers. 
 """
 
 from keras.models import Model
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, concatenate, Conv2DTranspose, BatchNormalization, Dropout, Lambda
 
 
-################################################################
 def multi_unet_model(n_classes=3, IMG_HEIGHT=256, IMG_WIDTH=256, IMG_CHANNELS=1):
     # Build the model
     inputs = Input((IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS))
@@ -70,10 +73,5 @@ def multi_unet_model(n_classes=3, IMG_HEIGHT=256, IMG_WIDTH=256, IMG_CHANNELS=1)
     outputs = Conv2D(n_classes, (1, 1), activation='softmax')(c9)
 
     model = Model(inputs=[inputs], outputs=[outputs])
-
-    # NOTE: Compile the model in the main program to make it easy to test with various loss functions
-    # model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-    # model.summary()
 
     return model

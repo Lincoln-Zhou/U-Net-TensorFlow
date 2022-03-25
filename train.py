@@ -1,3 +1,12 @@
+"""
+Copyright 2022 Lincoln Zhou, zhoulang731@gmail.com
+
+This script demonstrates training multi-class semantic segmentation model on custom dataset, using U-Net architecture.
+
+Please refer to U-Net paper:
+The scripts in this repo partially use code from: https://github.com/bnsreenu/python_for_microscopists
+
+"""
 from multi_unet_model import multi_unet_model  # Uses softmax
 
 import tensorflow as tf
@@ -8,33 +17,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-n_classes = 3
+n_classes = 3   # Total amount of classes, background included
 
-# Read preprocessed images and labels
+# Read preprocessed images and labels, can be obtained from utl.generate_sequence_data() AND data_preprocessing()
 train_images = np.load(r"C:\Users\Lincoln\Desktop\images_encoded.npy")
 train_masks_input = np.load(r"C:\Users\Lincoln\Desktop\masks_encoded.npy")
-
-"""
-# Code below is necessary for inference on new data
-labelencoder = LabelEncoder()
-n, h, w = train_masks.shape
-
-train_masks_reshaped = train_masks.reshape(-1, 1)
-train_masks_reshaped_encoded = labelencoder.fit_transform(train_masks_reshaped)
-train_masks_encoded_original_shape = train_masks_reshaped_encoded.reshape(n, h, w)
-
-np.unique(train_masks_encoded_original_shape)
-
-train_images = np.expand_dims(train_images, axis=3)
-train_images = normalize(train_images, axis=1)
-
-train_masks_input = np.expand_dims(train_masks_encoded_original_shape, axis=3)
-"""
 
 # 75% data for training
 X_train, X_test, y_train, y_test = train_test_split(train_images, train_masks_input, test_size=0.25, random_state=42)
 
-print(f"Class values in the dataset are {np.unique(y_train)}")  # 0 is the background
+print(f"Class values in the dataset are {np.unique(y_train)}")
 
 train_masks_cat = to_categorical(y_train, num_classes=n_classes)
 y_train_cat = train_masks_cat.reshape((y_train.shape[0], y_train.shape[1], y_train.shape[2], n_classes))
@@ -63,7 +55,7 @@ history = model.fit(X_train, y_train_cat,
 model.save('last.h5')
 
 # Plot the training and validation accuracy and loss at each epoch
-# Evaluation on unseen data is omitted here, since VRAM will be insufficient on most consumer PCs, please refer to evaluate.py
+# Evaluation on unseen data is omitted here, since VRAM will be insufficient on most consumer-level PCs, please refer to evaluate.py
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
@@ -77,8 +69,8 @@ plt.ylabel('Loss')
 plt.legend()
 plt.show()
 
-acc = history.history['acc']
-val_acc = history.history['val_acc']
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
 
 plt.plot(epochs, acc, 'y', label='Training Accuracy')
 plt.plot(epochs, val_acc, 'r', label='Validation Accuracy')
