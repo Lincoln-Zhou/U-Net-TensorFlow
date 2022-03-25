@@ -5,8 +5,8 @@ This script demonstrates training multi-class semantic segmentation model on cus
 
 Please refer to U-Net paper:
 The scripts in this repo partially use code from: https://github.com/bnsreenu/python_for_microscopists
-
 """
+
 from multi_unet_model import multi_unet_model  # Uses softmax
 
 import tensorflow as tf

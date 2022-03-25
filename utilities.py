@@ -1,10 +1,7 @@
 import numpy as np
 from cv2 import cv2
-from tensorflow.keras.utils import normalize, to_categorical
-from tensorflow.keras.metrics import MeanIoU
+from tensorflow.keras.utils import normalize
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from sklearn.utils import class_weight
 
 from tqdm import tqdm
 
