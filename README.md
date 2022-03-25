@@ -1,6 +1,4 @@
-#Multi-class U-Net TensorFlow Implementation
-
-An implementation of U-Net using TensorFlow framework, with multi-class support.
+**An implementation of U-Net using TensorFlow framework, with multi-class support.**
 
 ## Train on Custom Data
 We design the project to find a balance between encapsulation and the ability of code modification, please follow the steps below to train on your custom dataset.
