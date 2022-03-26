@@ -6,6 +6,20 @@ from sklearn.preprocessing import LabelEncoder
 from tqdm import tqdm
 
 import os
+import time
+from contextlib import contextmanager
+
+
+@contextmanager
+def Timer(msg):
+    print(msg)
+
+    start = time.perf_counter()
+
+    try:
+        yield
+    finally:
+        print("%.4f ms" % ((time.perf_counter() - start) * 1000))
 
 
 def split_image(image: np.ndarray, M: int = 2, N: int = 2):
@@ -14,6 +28,25 @@ def split_image(image: np.ndarray, M: int = 2, N: int = 2):
     tiles = [image[x:x + M, y:y + N] for x in range(0, image.shape[0], M) for y in range(0, image.shape[1], N)]
 
     return tiles
+
+
+def fuse_tiles(tiles: np.ndarray, M: int = 2, N: int = 2):
+    h, w = tiles[0].shape   # Warning: assume all tiles are of the same shape here
+
+    res = []
+
+    for i in range(M):
+        row = []
+
+        for j in range(N):
+            row.append(tiles[i * N + j])
+
+        row = np.hstack(row)
+        res.append(row)
+
+    res = np.vstack(res)
+
+    return res
 
 
 def labelme_json_to_mask(path: str, output: str):
@@ -70,7 +103,7 @@ def generate_sequence_data(path: str, split: tuple = None, resize: int = 256):
         if split:
             M, N = split
 
-            img_tiles = split_image(img, M, M)
+            img_tiles = split_image(img, M, N)
             mask_tiles = split_image(mask, M, N)
         else:
             img_tiles, mask_tiles = [img], [mask]

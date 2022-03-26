@@ -3,11 +3,12 @@ Copyright 2022 Lincoln Zhou, zhoulang731@gmail.com
 
 This script demonstrates training multi-class semantic segmentation model on custom dataset, using U-Net architecture.
 
-Please refer to U-Net paper:
+Please refer to U-Net paper: https://arxiv.org/abs/1505.04597
+
 The scripts in this repo partially use code from: https://github.com/bnsreenu/python_for_microscopists
 """
 
-from multi_unet_model import multi_unet_model  # Uses softmax
+from multi_unet_model import multi_unet_model
 
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
