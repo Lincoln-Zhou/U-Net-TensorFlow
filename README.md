@@ -15,7 +15,7 @@ We design the project to find a balance between encapsulation and the ability of
 Please refer to the docstring of aforementioned methods for more info.
 
 ## Inference on New Data
-*Still working on that part now:)*
+A basic inference pipeline is implemented in `inference.py`, with a wrapper method also provided, please refer to in-code docs for more info.
 
 ## Sample Result
 The following results are from tiles of an underground parking lot IPM image. The model was trained for detecting road lanes and markers, please refer to `best.h5`.
@@ -28,6 +28,9 @@ The model achieved a `Mean_IoU` score of 86.25% on our current version of datase
 <img alt="04" height="235" src="https://github.com/Lincoln-Zhou/U-Net-TensorFlow/raw/main/sample_result/04.png" width="600" class="center"/>
 <img alt="05" height="235" src="https://github.com/Lincoln-Zhou/U-Net-TensorFlow/raw/main/sample_result/05.png" width="600" class="center"/>
 
+Segmentation sample on a full image:
+
+<img alt="6" height="630" src="https://github.com/Lincoln-Zhou/U-Net-TensorFlow/raw/main/sample_result/6.png" width="853" class="center"/>
 
 ## System Requirements
 Software:
